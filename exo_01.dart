@@ -1,5 +1,6 @@
 
 
+
 //  le main
 void main() {
   String lettre = '''Cher agent X,
@@ -50,10 +51,15 @@ void protocoleGamma (lettre) {
   
   bool debuteParCher = lettre.startsWith("Cher");
   bool termineParCordialement = lettre.endsWith("Cordialement");
-  
+  String espaceMultiple = lettre.replaceAll(RegExp(r'\s+'), " ");
+  String sansEspace = lettre.trim();
   if (debuteParCher && termineParCordialement) {
     print ("La lettre commence bien par 'Cher' et se termine par 'Cordialement' ");
   }else{
     print(" C'est le mauvais texte");
   }
+
+  print("la lettre sans les espaces à l'intérieur est: $espaceMultiple"); // Supprimer les espace multiples
+  print("la lettre sans les espaces du début et la fin est: $sansEspace"); // Supprimer les espace du début et de la fin de la lettre
+
 }
