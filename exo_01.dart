@@ -1,6 +1,5 @@
 
 
-
 // 🔍 Protocole Alpha 
 void main() {
   var lettre = '''Cher agent X,
@@ -19,8 +18,13 @@ Notre agent de liaison vous contactera à 23h.
 
     Cordialement''';
   
-  print(lettre);
-  print(lettre.length);
-  print(lettre. split(" "));
-}
+  print(lettre);  // afficher la lettre
+  print(lettre.length);  // afficher la longueur de la lettre
+  print(lettre. split(" ")); // afficher la séparation de la lettre 
 
+// 🔄 Protocole Beta 
+  print(lettre.split('').reversed.join()); // afficher la séparation de la lettre dans l'autre sens
+
+  print(lettre.replaceAll("agent", "espion")); // afficher la séparation de la lettre avec agent remplacer par espion
+
+}
