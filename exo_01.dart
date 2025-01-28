@@ -21,7 +21,8 @@ Notre agent de liaison vous contactera à 23h.
 
   protocoleAlpha(lettre);
   protocoleBeta(lettre);
-  protocoleGamma (lettre);
+  protocoleGamma(lettre);
+  protocoleDelta(lettre);
 
 }
 
@@ -69,3 +70,21 @@ void protocoleGamma (lettre) {
 
 
 // 🔐 Protocole Delta :
+void protocoleDelta (String lettre) {
+    
+  String majuscule = lettre.toUpperCase();
+  String miniscule = lettre.toLowerCase();
+
+  print("la lettre est tout en majuscule:");
+  print (majuscule); // Votre lettre en majuscule
+    
+  print("la lettre est tout en miniscule:");
+  print(miniscule); // Votre lettre en miniscule
+
+  if (lettre.length >= 43) {
+      var caractere = lettre[42];
+        
+      print ("la lettre qui se trouve à l'index 42 est : $caractere");
+    }
+
+}
