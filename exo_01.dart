@@ -1,6 +1,6 @@
 
 
-// 🔍 Protocole Alpha 
+//  le main
 void main() {
   String lettre = '''Cher agent X,
 
@@ -20,12 +20,16 @@ Notre agent de liaison vous contactera à 23h.
 
   protocoleAlpha(lettre);
   protocoleBeta(lettre);
+  protocoleGamma (lettre);
 
 }
-  
+
+
+//  🔍 Protocole Alpha
   void protocoleAlpha (String lettre) {
   print(lettre);  // afficher la lettre
-  print(lettre.length);  // afficher la longueur de la lettre
+  print("la taille de la lettre est : ");
+  print( lettre.length);  // afficher la longueur de la lettre
   print(lettre. split(" ")); // afficher la séparation de la lettre 
 
   }
@@ -38,3 +42,18 @@ print(lettre.split('').reversed.join()); // afficher la séparation de la lettre
   print(lettre.replaceAll("agent", "espion")); // afficher la séparation de la lettre avec agent remplacer par espion
 
     }
+
+
+   // 📝 Protocole Gamma :
+
+void protocoleGamma (lettre) {
+  
+  bool debuteParCher = lettre.startsWith("Cher");
+  bool termineParCordialement = lettre.endsWith("Cordialement");
+  
+  if (debuteParCher && termineParCordialement) {
+    print ("La lettre commence bien par 'Cher' et se termine par 'Cordialement' ");
+  }else{
+    print(" C'est le mauvais texte");
+  }
+}
