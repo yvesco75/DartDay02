@@ -15,6 +15,7 @@ void main() {
   protocoleEnergetiquePrincipal(distance);
   protocoleGestionEnergie(distance);
   protocolePointsDeControle(distance);
+  protocoleSecurite(distance);
 }
 
 // Protocole Énergétique Principal : Identifier le type de route et calculer les recharges nécessaires
@@ -57,4 +58,26 @@ void protocolePointsDeControle(int distance) {
   // Afficher les résultats
   print("\nProtocole Points de Contrôle :");
   print("- Points de ravitaillement : $pointsDeRavitaillement");
+}
+
+// Protocole de Sécurité : Vérifier les points de puissance et les limites opérationnelles
+void protocoleSecurite(int distance) {
+  print("\nProtocole de Sécurité :");
+
+  // Vérification des "Points de Puissance" (distances = 2^n)
+  bool estPointDePuissance = (distance & (distance - 1)) == 0;
+
+  // Analyse des limites opérationnelles
+  if (distance < 10 || distance > 100) {
+    print("- Alarme de sécurité activée : Distance hors limites (min : 10 km, max : 100 km)");
+  } else {
+    print("- Distance dans les limites opérationnelles.");
+  }
+
+  // Afficher si la distance est un point de puissance
+  if (estPointDePuissance) {
+    print("- Distance $distance km est un Point de Puissance (2ⁿ).");
+  } else {
+    print("- Distance $distance km n'est pas un Point de Puissance.");
+  }
 }
