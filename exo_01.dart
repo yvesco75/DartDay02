@@ -23,6 +23,7 @@ Notre agent de liaison vous contactera à 23h.
   protocoleBeta(lettre);
   protocoleGamma(lettre);
   protocoleDelta(lettre);
+  protocolesecurite(lettre);
 
 }
 
@@ -101,4 +102,13 @@ void protocoleDelta (String lettre) {
     }else{
       print ("La lettre est bien présente avedc les caractères");
     }
-    }
+
+  RegExp regex = RegExp(r'\d+'); // Expression régulière pour trouver les nombres
+  
+  Iterable<Match> matches = regex.allMatches(lettre);   // Trouver tous les nombres dans le texte
+
+  List<int> numbers = matches.map((match) => int.parse(match.group(0)!)).toList();   // Convertir chaque nombre trouvé en entier
+  
+  print("Nombres trouvés dans le texte : $numbers"); // Afficher les nombres trouvés
+
+}
