@@ -1,17 +1,17 @@
-
-/// ROBOPOLIS - Division Innovation & Logistiqu
+/// ROBOPOLIS - Division Innovation & Logistique
 
 // Mission : Développer la fonction calculerTrajet(int distance) intégrant nos protocoles d'optimisation énergétique.
 
-// Protocole Énergétique Principal :
+import 'dart:io';
 
-
-// Fonction principale pour calculer le trajet
+// Fonction principale
 void main() {
-  // Définir la distance souhaitée
-  int distance = 75; // Vous pouvez modifier cette distance
+  print("=== Bienvenue dans le programme de configuration du trajet ! ===");
 
-  // Appeler les protocoles
+  // Appeler la fonction pour obtenir la distance de l'utilisateur
+  int distance = obtenirDistanceUtilisateur();
+
+  // Appeler les protocoles avec la distance donnée
   protocoleEnergetiquePrincipal(distance);
   protocoleGestionEnergie(distance);
   protocolePointsDeControle(distance);
@@ -28,7 +28,8 @@ void protocoleEnergetiquePrincipal(int distance) {
   int nombreRecharges = (distance / capaciteBatterie).ceil(); // Arrondi au supérieur
 
   // Afficher les résultats
-  print("\nConfiguration du trajet pour $distance km :");
+  print("\n🔋 Protocole Énergétique Principal");
+  print("- Configuration du trajet pour $distance km :");
   print("- Mode activé : $mode");
   print("- Nombre de recharges nécessaires : $nombreRecharges");
 }
@@ -44,6 +45,7 @@ void protocoleGestionEnergie(int distance) {
   }
 
   // Afficher les résultats
+  print("\n⚡ Protocole de Gestion d'Énergie");
   print("- Consommation énergétique estimée : $consommation unités");
 }
 
@@ -56,22 +58,22 @@ void protocolePointsDeControle(int distance) {
   }
 
   // Afficher les résultats
-  print("\nProtocole Points de Contrôle :");
+  print("\n📍 Protocole Points de Contrôle");
   print("- Points de ravitaillement : $pointsDeRavitaillement");
 }
 
 // Protocole de Sécurité : Vérifier les points de puissance et les limites opérationnelles
 void protocoleSecurite(int distance) {
-  print("\nProtocole de Sécurité :");
+  print("\n🔒 Protocole de Sécurité :");
 
   // Vérification des "Points de Puissance" (distances = 2^n)
   bool estPointDePuissance = (distance & (distance - 1)) == 0;
 
   // Analyse des limites opérationnelles
   if (distance < 10 || distance > 100) {
-    print("- Alarme de sécurité activée : Distance hors limites (min : 10 km, max : 100 km)");
+    print("- 🚨 Alarme de sécurité activée : Distance hors limites (min : 10 km, max : 100 km)");
   } else {
-    print("- Distance dans les limites opérationnelles.");
+    print("- ✅ Distance dans les limites opérationnelles.");
   }
 
   // Afficher si la distance est un point de puissance
@@ -79,5 +81,20 @@ void protocoleSecurite(int distance) {
     print("- Distance $distance km est un Point de Puissance (2ⁿ).");
   } else {
     print("- Distance $distance km n'est pas un Point de Puissance.");
+  }
+}
+
+// Fonction pour demander à l'utilisateur d'entrer la distance
+int obtenirDistanceUtilisateur() {
+  while (true) {
+    print("\nVeuillez entrer la distance en kilomètres :");
+    String? input = stdin.readLineSync(); // Lire l'entrée utilisateur
+
+    // Vérifier si l'entrée est valide
+    if (input != null && int.tryParse(input) != null) {
+      return int.parse(input); // Retourner la distance valide
+    } else {
+      print("⚠️ Entrée invalide. Veuillez entrer un nombre entier.");
+    }
   }
 }
