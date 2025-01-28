@@ -1,5 +1,5 @@
 
-// ROBOPOLIS - Division Innovation & Logistiqu
+// ROBOPOLIS - Division Innovation & Logistique
 
 // Mission : Développer la fonction calculerTrajet(int distance) intégrant nos protocoles d'optimisation énergétique.
 
