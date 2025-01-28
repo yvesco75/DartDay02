@@ -84,7 +84,21 @@ void protocoleDelta (String lettre) {
   if (lettre.length >= 43) {
       var caractere = lettre[42];
         
-      print ("la caractère qui se trouve à l'index 42 est : $caractere");
+      print ("la lettre qui se trouve à l'index 42 est : $caractere");
     }
 
 }
+
+
+
+// ⚠️ Protocoles de sécurité :
+  void protocolesecurite (String lettre) {
+    
+      String sansEspace = lettre.trim();
+    if (sansEspace.length == 0){
+      
+      print (" Votre lettre est vide!");
+    }else{
+      print ("La lettre est bien présente avedc les caractères");
+    }
+    }
