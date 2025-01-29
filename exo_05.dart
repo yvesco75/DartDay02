@@ -11,20 +11,54 @@ void main() {
   enregistrerLieu(carteTresor, "Grotte Sombre", "Un passage étroit menant à une salle secrète.", 5.0);
   enregistrerLieu(carteTresor, "Forêt Maudite", "Un lieu dangereux où des aventuriers ont disparu.", 15.2);
 
-  // Affichage de la carte des indices
+  // Ajout d'explorateurs et suivi des missions
+  enregistrerExplorateur(carteTresor, "Île Perdue", "Alice");
+  enregistrerExplorateur(carteTresor, "Temple Ancien", "Bob");
+  enregistrerExplorateur(carteTresor, "Grotte Sombre", "Charlie");
+  enregistrerMission(carteTresor, "Forêt Maudite", "Explorer la zone interdite");
+
+  // Affichage de la carte des indices avec suivi
   afficherCarte(carteTresor);
 
   // Analyse des indices
   analyserIndices(carteTresor);
+
+  // Suppression d'un lieu après la découverte du trésor
+  retirerLieu(carteTresor, "Temple Ancien");
+
+  // Affichage après suppression
+  afficherCarte(carteTresor);
 }
 
-// 📍 Protocole : Enregistrement des lieux
+// 📍 Protocole : Enregistrement des lieux et suivi
 void enregistrerLieu(Map<String, Map<String, dynamic>> carte, String nom, String indice, double distance) {
   carte[nom] = {
     "indice": indice,
-    "distance": distance
+    "distance": distance,
+    "explorateurs": <String>[],
+    "missions": <String>[]
   };
-  print("📌 Lieu ajouté : $nom (${distance} km) - Indice : \"$indice\"");
+  print("📌 Lieu ajouté : $nom ($distance km) - Indice : \"$indice\"");
+}
+
+// 🏕️ Suivi des explorateurs ayant visité un lieu
+void enregistrerExplorateur(Map<String, Map<String, dynamic>> carte, String nom, String explorateur) {
+  if (carte.containsKey(nom)) {
+    carte[nom]["explorateurs"].add(explorateur);
+    print("👣 Explorateur $explorateur ajouté au lieu : $nom");
+  } else {
+    print("⚠️ Lieu introuvable : $nom");
+  }
+}
+
+// 📜 Suivi des missions en cours
+void enregistrerMission(Map<String, Map<String, dynamic>> carte, String nom, String mission) {
+  if (carte.containsKey(nom)) {
+    carte[nom]["missions"].add(mission);
+    print(" Mission ajoutée pour $nom : \"$mission\"");
+  } else {
+    print("⚠️ Lieu introuvable : $nom");
+  }
 }
 
 // ❌ Protocole : Retirer les lieux
@@ -37,15 +71,16 @@ void retirerLieu(Map<String, Map<String, dynamic>> carte, String nom) {
   }
 }
 
-// ✉️ Protocole : Afficher la carte des indices
 //  Fonction pour afficher la carte des indices
 void afficherCarte(Map<String, Map<String, dynamic>> carte) {
-  print("\ Carte des indices :");
+  print("\ Carte des indices avec suivi :");
   if (carte.isEmpty) {
-    print("📭 Aucun lieu enregistré.");
+    print(" Aucun lieu enregistré.");
   } else {
     carte.forEach((nom, details) {
       print("- $nom : ${details['indice']} (Distance : ${details['distance']} km)");
+      print("  👣 Explorateurs : ${details['explorateurs'].isEmpty ? 'Aucun' : details['explorateurs'].join(", ")}");
+      print("   Missions : ${details['missions'].isEmpty ? 'Aucune' : details['missions'].join(", ")}");
     });
   }
   print("\n");
