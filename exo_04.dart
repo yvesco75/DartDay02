@@ -3,63 +3,94 @@
 // Fonction principale
 void main() {
   List<Map<String, dynamic>> playlist = [
-    {"titre": "Song A", "duree": 3.5},
-    {"titre": "Song C", "duree": 4.2},
-    {"titre": "Song B", "duree": 2.8}
+    {"titre": "Shape of You", "duree": 3.5},
+    {"titre": "Blinding Lights", "duree": 3.2},
+    {"titre": "Shape of You", "duree": 3.5}, // Doublon pour test
+    {"titre": "Take on Me", "duree": 4.0},
+    {"titre": "Love Yourself", "duree": 3.8}
   ];
 
-  // Exemple d'utilisation
-  gererPlaylist(playlist, "ajout", {"titre": "Song D", "duree": 3.7});
-  gererPlaylist(playlist, "suppression", {"titre": "Song A"});
-  gererPlaylist(playlist, "tri", {"ordre": "A→Z"});
-  gererPlaylist(playlist, "stats", {});
+  // Tests des modes avancés
+  gererPlaylist(playlist, "recherche", {"titre": "Shape of You"});
+  gererPlaylist(playlist, "lecture", {"position": "première"});
+  gererPlaylist(playlist, "shuffle", {});
+  gererPlaylist(playlist, "filtre", {"motCle": "love"});
+  gererPlaylist(playlist, "nettoyage", {});
+  gererPlaylist(playlist, "remix", {});
 }
 
 // Fonction pour gérer la playlist
 void gererPlaylist(List<Map<String, dynamic>> playlist, String mode, Map<String, dynamic> param) {
   switch (mode) {
-    case "ajout":
-      // ✅ Mode Ajout : Ajout d'une nouvelle chanson en fin de liste
-      if (param.containsKey("titre") && param.containsKey("duree")) {
-        playlist.add({"titre": param["titre"], "duree": param["duree"]});
-        print("🎵 Ajout : ${param['titre']} ajouté à la playlist.");
+    case "recherche":
+      // ✅ Mode Recherche : Détection de doublon
+      String titreRecherche = param["titre"];
+      int occurences = playlist.where((chanson) => chanson["titre"] == titreRecherche).length;
+      if (occurences > 0) {
+        print("🔎 '$titreRecherche' est présent $occurences fois dans la playlist.");
       } else {
-        print("⚠️ Erreur : Données incomplètes pour l'ajout.");
+        print("❌ '$titreRecherche' n'est pas dans la playlist.");
       }
       break;
 
-    case "suppression":
-      // ✅ Mode Suppression : Retrait d'une chanson spécifiée
-      playlist.removeWhere((chanson) => chanson["titre"] == param["titre"]);
-      print("🗑 Suppression : ${param['titre']} retiré de la playlist.");
-      break;
-
-    case "tri":
-      // ✅ Mode Tri : Alphabétique (A→Z et Z→A)
-      if (param["ordre"] == "A→Z") {
-        playlist.sort((a, b) => a["titre"].compareTo(b["titre"]));
-        print("🎼 Playlist triée de A à Z.");
-      } else if (param["ordre"] == "Z→A") {
-        playlist.sort((a, b) => b["titre"].compareTo(a["titre"]));
-        print("🎼 Playlist triée de Z à A.");
+    case "lecture":
+      // ✅ Mode Lecture : Accès rapide à la première ou dernière chanson
+      if (playlist.isEmpty) {
+        print(" La playlist est vide.");
+        return;
+      }
+      if (param["position"] == "première") {
+        print("▶️ Lecture : Première chanson - ${playlist.first['titre']} (${playlist.first['duree']} min)");
+      } else if (param["position"] == "dernière") {
+        print("▶️ Lecture : Dernière chanson - ${playlist.last['titre']} (${playlist.last['duree']} min)");
       } else {
-        print("⚠️ Erreur : Ordre de tri invalide.");
+        print("⚠️ Erreur : Position inconnue.");
       }
       break;
 
-    case "stats":
-      // ✅ Mode Stats : Nombre total et durée moyenne des morceaux
-      if (playlist.isNotEmpty) {
-        int totalMorceaux = playlist.length;
-        double dureeMoyenne = playlist.map((chanson) => chanson["duree"]).reduce((a, b) => a + b) / totalMorceaux;
+    case "shuffle":
+      // ✅ Mode Shuffle : Inversion totale de la playlist
+      playlist = List.from(playlist.reversed);
+      print("🔀 Playlist inversée !");
+      break;
 
-        print("\n📊 Stats :");
-        print("- Nombre total de morceaux : $totalMorceaux");
-        print("- Durée moyenne des morceaux : ${dureeMoyenne.toStringAsFixed(2)} min");
+    case "filtre":
+      // ✅ Mode Filtre : Recherche par mot-clé
+      String motCle = param["motCle"].toLowerCase();
+      List<Map<String, dynamic>> resultat = playlist
+          .where((chanson) => chanson["titre"].toLowerCase().contains(motCle))
+          .toList();
+      if (resultat.isNotEmpty) {
+        print("🔍 Chansons contenant '$motCle' :");
+        for (var chanson in resultat) {
+          print("- ${chanson['titre']} (${chanson['duree']} min)");
+        }
       } else {
-        print("📊 Stats : La playlist est vide.");
+        print("❌ Aucun morceau ne contient '$motCle'.");
       }
-      return; // On évite d'afficher la playlist après les stats
+      break;
+
+    case "nettoyage":
+      // ✅ Mode Nettoyage : Suppression automatique des doublons
+      Set<String> titresVus = {};
+      playlist = playlist.where((chanson) {
+        if (titresVus.contains(chanson["titre"])) {
+          return false; // Supprime le doublon
+        } else {
+          titresVus.add(chanson["titre"]);
+          return true;
+        }
+      }).toList();
+      print("🧹 Doublons supprimés !");
+      break;
+
+    case "remix":
+      // ✅ Mode Remix : Simulation de versions longues (durée × 2)
+      playlist = playlist.map((chanson) {
+        return {"titre": chanson["titre"] + " (Remix)", "duree": chanson["duree"] * 2};
+      }).toList();
+      print("🎧 Mode Remix activé ! Toutes les durées ont été doublées.");
+      break;
 
     default:
       print("⚠️ Erreur : Mode inconnu.");
